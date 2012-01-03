@@ -1,0 +1,7 @@
+#!/bin/bash
+mv -f /Users/EvilPro/Documents/Projects/Dylib\ Disabler/build/Debug-iphoneos/Dylib\ Disabler.app/Dylib\ Disabler /Users/EvilPro/Documents/Projects/Dylib\ Disabler/build/Debug-iphoneos/Dylib\ Disabler.app/Dylib\ Disabler_
+cp /Users/EvilPro/Documents/Projects/Dylib\ Disabler/Dylib\ Disabler /Users/EvilPro/Documents/Projects/Dylib\ Disabler/build/Debug-iphoneos/Dylib\ Disabler.app/
+scp -r -P 2222 "/Users/EvilPro/Documents/Projects/Dylib Disabler/build/Debug-iphoneos/Dylib Disabler.app" ssh root@127.0.0.1:
+ssh root@127.0.0.1 -p 2222 "rm -rf /Applications/Dylib\ Disabler.app; mv -f Dylib\ Disabler.app /Applications/; cd /Applications/Dylib\ Disabler.app; ./DDChmod"
+exit;
+#end script

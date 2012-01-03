@@ -1,0 +1,10 @@
+Name: DylibDisabler
+Package: us.nakedproductions.dylibdisabler
+Depends: mobilesubstrate
+Priority: optional
+Section: Utilities
+Description: Remove and Disable Dylibs.
+Version: 1.2
+Maintainer: EvilPenguin|
+Author: EvilPenguin <evilpenguin@nakedproductions.us>
+Architecture: iphoneos-arm

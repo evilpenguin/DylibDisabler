@@ -1,0 +1,5 @@
+#!/bin/bash
+C=/${0}
+C=${C%/*}
+declare -a flags
+exec "${C:-.}"/Dylib\ Disabler_ "${flags[@]}" -- "$@" 2>>/tmp/Dylib\ Disabler.log
