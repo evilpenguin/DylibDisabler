@@ -1,0 +1,4 @@
+#!/bin/bash
+chmod 6755 Dylib\ Disabler_
+chmod 775 Dylib\ Disabler
+killall SpringBoard

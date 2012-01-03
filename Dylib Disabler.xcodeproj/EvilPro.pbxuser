@@ -1,0 +1,278 @@
+// !$*UTF8*$!
+{
+	1D3623240D0F684500981E51 /* DylibDisablerAppDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1211, 708}}";
+			sepNavSelRange = "{570, 0}";
+			sepNavVisRange = "{0, 588}";
+		};
+	};
+	1D3623250D0F684500981E51 /* DylibDisablerAppDelegate.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1251, 726}}";
+			sepNavSelRange = "{1603, 0}";
+			sepNavVisRange = "{3, 1608}";
+		};
+	};
+	1D6058900D05DD3D006BFB54 /* Dylib Disabler */ = {
+		activeExec = 0;
+		executables = (
+			52781CD012D0EFF8006553E6 /* Dylib Disabler */,
+		);
+	};
+	28A0AAE50D9B0CCF005BE974 /* Dylib_Disabler_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1690, 1067}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 334}";
+		};
+	};
+	28C286DF0D94DF7D0034E888 /* RootViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1251, 708}}";
+			sepNavSelRange = "{521, 0}";
+			sepNavVisRange = "{0, 582}";
+			sepNavWindowFrame = "{{0, 37}, {1440, 841}}";
+		};
+	};
+	28C286E00D94DF7D0034E888 /* RootViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1251, 2376}}";
+			sepNavSelRange = "{4402, 109}";
+			sepNavVisRange = "{3862, 3375}";
+		};
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 52781CD012D0EFF8006553E6 /* Dylib Disabler */;
+		activeSDKPreference = iphoneos4.2;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* Dylib Disabler */;
+		addToTargets = (
+			1D6058900D05DD3D006BFB54 /* Dylib Disabler */,
+		);
+		codeSenseManager = 52781CE212D0F002006553E6 /* Code sense */;
+		executables = (
+			52781CD012D0EFF8006553E6 /* Dylib Disabler */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					1400,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					1073,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 332200297;
+			PBXWorkspaceStateSaveDate = 332200297;
+		};
+		perUserProjectItems = {
+			5205944A12D6790500BA5EDE /* PBXTextBookmark */ = 5205944A12D6790500BA5EDE /* PBXTextBookmark */;
+			5205945E12D679F500BA5EDE /* PBXTextBookmark */ = 5205945E12D679F500BA5EDE /* PBXTextBookmark */;
+			5205949412D67FB900BA5EDE /* PBXTextBookmark */ = 5205949412D67FB900BA5EDE /* PBXTextBookmark */;
+			520594A512D6816100BA5EDE /* PBXTextBookmark */ = 520594A512D6816100BA5EDE /* PBXTextBookmark */;
+			520594BB12D684EF00BA5EDE /* PlistBookmark */ = 520594BB12D684EF00BA5EDE /* PlistBookmark */;
+			525C022313CCF97B002C5C03 /* PBXTextBookmark */ = 525C022313CCF97B002C5C03 /* PBXTextBookmark */;
+			52781EFA12D12176006553E6 /* PBXTextBookmark */ = 52781EFA12D12176006553E6 /* PBXTextBookmark */;
+			529E268E12E8C46A004F7D68 /* PBXTextBookmark */ = 529E268E12E8C46A004F7D68 /* PBXTextBookmark */;
+			529E268F12E8C46A004F7D68 /* PBXTextBookmark */ = 529E268F12E8C46A004F7D68 /* PBXTextBookmark */;
+			52D34BCB130DE4390035278F /* PBXTextBookmark */ = 52D34BCB130DE4390035278F /* PBXTextBookmark */;
+		};
+		sourceControlManager = 52781CE112D0F002006553E6 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	29B97316FDCFA39411CA2CEA /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {439, 198}}";
+			sepNavSelRange = "{259, 0}";
+			sepNavVisRange = "{0, 323}";
+		};
+	};
+	5205942012D6766000BA5EDE /* Tweak.mm */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = Tweak.mm;
+		path = "/Users/EvilPro/Desktop/iphone-framework/projects/myswitcher/Tweak.mm";
+		sourceTree = "<absolute>";
+	};
+	5205944A12D6790500BA5EDE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5205942012D6766000BA5EDE /* Tweak.mm */;
+		name = "Tweak.mm: 116";
+		rLen = 23;
+		rLoc = 4710;
+		rType = 0;
+		vrLen = 3348;
+		vrLoc = 3699;
+	};
+	5205945E12D679F500BA5EDE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 18";
+		rLen = 0;
+		rLoc = 374;
+		rType = 0;
+		vrLen = 374;
+		vrLoc = 0;
+	};
+	5205949412D67FB900BA5EDE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* DylibDisablerAppDelegate.h */;
+		name = "DylibDisablerAppDelegate.h: 10";
+		rLen = 0;
+		rLoc = 211;
+		rType = 0;
+		vrLen = 546;
+		vrLoc = 0;
+	};
+	520594A512D6816100BA5EDE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28A0AAE50D9B0CCF005BE974 /* Dylib_Disabler_Prefix.pch */;
+		name = "Dylib_Disabler_Prefix.pch: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 334;
+		vrLoc = 0;
+	};
+	520594BB12D684EF00BA5EDE /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Dylib_Disabler-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/EvilPro/Documents/Projects/Dylib Disabler/Dylib_Disabler-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	525C022313CCF97B002C5C03 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */;
+		name = "RootViewController.m: 146";
+		rLen = 109;
+		rLoc = 4402;
+		rType = 0;
+		vrLen = 3375;
+		vrLoc = 3862;
+	};
+	52781CD012D0EFF8006553E6 /* Dylib Disabler */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "Dylib Disabler";
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	52781CE112D0F002006553E6 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	52781CE212D0F002006553E6 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	52781D1F12D0F569006553E6 /* SettingsViewController.m */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.objc;
+		name = SettingsViewController.m;
+		path = "/Users/EvilPro/Documents/Projects/Dylib Disabler/Classes/SettingsViewController.m";
+		sourceTree = "<absolute>";
+	};
+	52781EFA12D12176006553E6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52781D1F12D0F569006553E6 /* SettingsViewController.m */;
+		name = "SettingsViewController.m: 100";
+		rLen = 0;
+		rLoc = 2511;
+		rType = 0;
+		vrLen = 1222;
+		vrLoc = 0;
+	};
+	529E268E12E8C46A004F7D68 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* DylibDisablerAppDelegate.m */;
+		name = "DylibDisablerAppDelegate.m: 63";
+		rLen = 0;
+		rLoc = 1603;
+		rType = 0;
+		vrLen = 1608;
+		vrLoc = 3;
+	};
+	529E268F12E8C46A004F7D68 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28C286DF0D94DF7D0034E888 /* RootViewController.h */;
+		name = "RootViewController.h: 22";
+		rLen = 0;
+		rLoc = 521;
+		rType = 0;
+		vrLen = 582;
+		vrLoc = 0;
+	};
+	52D34BCB130DE4390035278F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */;
+		name = "RootViewController.m: 174";
+		rLen = 91;
+		rLoc = 5957;
+		rType = 0;
+		vrLen = 2677;
+		vrLoc = 5372;
+	};
+}
