@@ -2,8 +2,8 @@
 //  DylibDisablerAppDelegate.m
 //  Dylib Disabler
 //
-//  Created by EvilPenguin| on 1/2/11.
-//  Copyright 2011  © NakedProductions. All rights reserved.
+//  Created by James Emrich on 1/2/11.
+//  Copyright 2011  © James Emrich. All rights reserved.
 //
 
 #import "DylibDisablerAppDelegate.h"
@@ -34,7 +34,7 @@
 #pragma mark == Memory management ==
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	NSLog(@"Dylib Disabler Memory Warning");
+	NSLog(@"DylibDisabler: Memory Warning");
 }
 
 

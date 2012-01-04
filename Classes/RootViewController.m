@@ -2,8 +2,8 @@
 //  RootViewController.m
 //  Dylib Disabler
 //
-//  Created by EvilPenguin| on 1/2/11.
-//  Copyright 2011 NakedProductions. All rights reserved.
+//  Created by James Emrich on 1/2/11.
+//  Copyright 2011 James Emrich. All rights reserved.
 //
 
 #import "RootViewController.h"
@@ -38,7 +38,7 @@
 #pragma mark == Public Methods ==
 
 - (void)respring {
-	NSLog(@"Dylib Disabler: Respring function");
+	NSLog(@"DylibDisabler: Respring function");
 	NSString *respringString = [userDefaults objectForKey:RESPRING_KEY];
 	if ([respringString isEqualToString:RESPRING_YES]) system("killall -9 SpringBoard");
 }
@@ -55,10 +55,10 @@
 }
 
 - (void) loadDylibs {
-	NSLog(@"Dylib Disabler: Loading Dylibs");
+	NSLog(@"DylibDisabler: Loading Dylibs");
 	NSError *dylibError = nil;
 	NSArray *dylibContents = [fileManager contentsOfDirectoryAtPath:DYLIB_DIRECTORY error:&dylibError];
-	if (dylibError) NSLog(@"Dylib Disabler: Content Reading Erroing->%@", dylibError); 
+	if (dylibError) NSLog(@"DylibDisabler: Content Reading Erroing: %@", dylibError); 
 	else { 
 		for (NSString *dylibName in dylibContents) {
 			if ([dylibName hasSuffix:@".dylib"] || [dylibName hasSuffix:@".disabled"]) [dylibArray addObject:dylibName]; 
@@ -77,14 +77,14 @@
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.detailTextLabel.textColor = ([[dylibArray objectAtIndex:indexPath.row] hasSuffix:@".dylib"] ? [UIColor blackColor] : [UIColor whiteColor]);
         cell.detailTextLabel.text = ([[dylibArray objectAtIndex:indexPath.row] hasSuffix:@".dylib"] ? @"Enabled" : @"Disabled");
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:10.0f];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:11.0f];
         cell.detailTextLabel.backgroundColor = [UIColor clearColor];
         cell.backgroundColor = ([[dylibArray objectAtIndex:indexPath.row] hasSuffix:@".dylib"] ? [UIColor whiteColor] : [UIColor redColor]);
     }
 }
 
 #pragma mark -
-#pragma mark ==  UITableViewController ==
+#pragma mark == UITableViewController Delegates/DataSource ==
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	return 50.0f;
@@ -102,6 +102,10 @@
     return @"DylibDisabler © EvilPenguin";
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
     static NSString *cellID = @"Dylib Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -113,10 +117,6 @@
     [self updateCell:cell atIndex:indexPath];
     
     return cell;
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -137,19 +137,16 @@
             [fileManager removeItemAtPath:plistPath error:&plistError];
             if (plistError != nil) NSLog(@"DylibDisabler Plist Deletion Error: %@", dylibError.description);
             
-            
-            [userDefaults setObject:RESPRING_YES forKey:RESPRING_KEY];
-            [userDefaults synchronize];
-            
-            [dylibArray removeObjectAtIndex:indexPath.row];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView reloadData];
+            if (dylibError == nil && plistError == nil) {
+                [userDefaults setObject:RESPRING_YES forKey:RESPRING_KEY];
+                [userDefaults synchronize];
+                
+                [dylibArray removeObjectAtIndex:indexPath.row];
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
         }
 	}
 }
-
-#pragma mark -
-#pragma mark == UITableViewController Delegates ==
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < [dylibArray count]) {
@@ -162,7 +159,7 @@
                              toPath:[NSString stringWithFormat:@"%@/%@", DYLIB_DIRECTORY, newDylibName] 
                               error:&error]; 
         
-        if (error) NSLog(@"Dylib Disabler: E/D Error->%@", error);
+        if (error) NSLog(@"DylibDisabler Dylib E/D Error: %@", error);
         else {
             [dylibArray removeObjectAtIndex:indexPath.row];
             [dylibArray insertObject:newDylibName atIndex:indexPath.row];
