@@ -1,4 +1,6 @@
-Dylib Disabler removes and disables dylibs for mobile substrate tweaks.
-You might need to make the app run as root, just use DDChmod inside the app.
+DylibDisabler removes and disables dylibs for mobile substrate tweaks.
+DylibDisabler works for iOS4 and iOS5. It also works for the iPhone and iPad.
+You might need to make the app run as root. Use the DDChmod script to get the right permissions - then apply with terminal.
 
-USE AT YOUR OWN RISK! I TAKE NO RESPONSIBILITY IF YOU NEED TO RESTORE YOUR iOS DEVICE!
+
+**USE AT YOUR OWN RISK! I TAKE NO RESPONSIBILITY IF YOU NEED TO RESTORE YOUR iOS DEVICE!**
