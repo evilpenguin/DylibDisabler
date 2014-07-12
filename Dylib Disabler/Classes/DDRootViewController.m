@@ -200,7 +200,7 @@
     @autoreleasepool {
         NSUInteger count = 0;
         for (DDDylibObject *dylibObject in _dylibObjectArray) {
-            if (~dylibObject.changeType != 0) {
+            if (~dylibObject.changeType != 0x00) {
                 count++;
             }
         }
