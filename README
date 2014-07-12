@@ -1,5 +1,5 @@
 DylibDisabler removes and disables dylibs for mobile substrate tweaks.
-DylibDisabler works for iOS4 and iOS5. It also works for the iPhone and iPad.
+DylibDisabler works for iOS5 to iOS7. It also works for the iPhone and iPad.
 You might need to make the app run as root. Use the DDChmod script to get the right permissions - then apply with terminal.
 
 
