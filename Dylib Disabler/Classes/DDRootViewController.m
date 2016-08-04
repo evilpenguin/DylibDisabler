@@ -10,8 +10,15 @@
 #import "DDRootViewController.h"
 #import "DDDylibObject.h"
 
+
+#if TARGET_IPHONE_SIMULATOR
+    NSString *const DDDylibDirectory = @"/Users/jamesemrich/Desktop/Projects/DylibDisabler/DynamicLibraries";
+#else
+    NSString *const DDDylibDirectory = @"/Library/MobileSubstrate/DynamicLibraries";
+#endif
+
 @interface SpringBoard : UIApplication
-    - (void)_relaunchSpringBoardNow;
+    - (void) _relaunchSpringBoardNow;
 @end
 
 @interface UILabel()
@@ -23,12 +30,12 @@
 @end
 
 @interface DDRootViewController (Private)
-    - (void) apply:(id)sender;
-    - (void) applyOnBackgroundThread;
-    - (void) loadDylibs;
-    - (void) validateDylibChange;
-    - (void) updateCell:(UITableViewCell *)cell withDylibIndex:(NSIndexPath *)indexPath;
-    - (void) updateLeftLabelForCount:(NSUInteger)count;
+    - (void) _apply:(id)sender;
+    - (void) _applyOnBackgroundThread;
+    - (void) _loadDylibs;
+    - (void) _validateDylibChange;
+    - (void) _updateCell:(UITableViewCell *)cell withDylibIndex:(NSIndexPath *)indexPath;
+    - (void) _updateLeftLabelForCount:(NSUInteger)count;
 @end
 
 @implementation DDRootViewController
@@ -38,23 +45,33 @@
 - (instancetype) init {
 	if (self = [super init]) {
         _dylibObjectArray   = [[NSMutableArray alloc] init];
+        _isIos7 = ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0);
+
 	}
     
 	return self;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return NO;
 }
 
-- (void) viewDidLoad {
-    BOOL isDeviceIOS7 = iOS7;
+- (void) viewWillLayoutSubviews {
     CGRect viewFrame = self.view.frame;
-    CGFloat iOS7Offset = (isDeviceIOS7 ? 15.0f : 0.0f);
+    CGFloat iOS7Offset = (_isIos7 ? 15.0f : 0.0f);
+
+    _toolBar.frame = CGRectMake(0.0f, 0.0f, viewFrame.size.width, 45.0f + iOS7Offset);
     
+    CGFloat tableYOffset = (_toolBar.frame.origin.y + _toolBar.frame.size.height);
+    _tableView.frame = CGRectMake(0.0f, tableYOffset, viewFrame.size.width, viewFrame.size.height - tableYOffset);
+    
+    [super viewWillLayoutSubviews];
+}
+
+- (void) viewDidLoad {
     UIBarButtonItem *flexItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, (isDeviceIOS7 ? 20.0f : 15.0f), 110.0f, 20.0f)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, (_isIos7 ? 20.0f : 15.0f), 110.0f, 20.0f)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.text = @"Dylib Disabler";
     titleLabel.textColor = [UIColor whiteColor];
@@ -69,12 +86,12 @@
     UIBarButtonItem *title = [[[UIBarButtonItem alloc] initWithCustomView:view] autorelease];
     [view release];
 
-    _leftBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Apply" style:UIBarButtonItemStylePlain target:self action:@selector(apply:)];
+    _leftBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Apply" style:UIBarButtonItemStylePlain target:self action:@selector(_apply:)];
     _leftBarItem.enabled = NO;
     [_leftBarItem setBackgroundImage:[[UIImage new] autorelease] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [self updateLeftLabelForCount:0];
+    [self _updateLeftLabelForCount:0];
 
-    _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, viewFrame.size.width, 45.0f + iOS7Offset)];
+    _toolBar = [[UIToolbar alloc] initWithFrame:CGRectZero];
     _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _toolBar.barStyle = UIBarStyleBlack;
     _toolBar.items = @[flexItem, title, flexItem, _leftBarItem];
@@ -83,21 +100,21 @@
     [self.view addSubview:_toolBar];
 
     CGFloat tableYOffset = (_toolBar.frame.origin.y + _toolBar.frame.size.height);
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, tableYOffset, viewFrame.size.width, viewFrame.size.height - tableYOffset) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _tableView.backgroundView = nil;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [[[UIView alloc] init] autorelease];
-    _tableView.separatorColor = [UIColor lightGrayColor];
+    _tableView.separatorColor = [UIColor clearColor];
     [self.view addSubview:_tableView];
     
     [super viewDidLoad];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    [self performSelectorInBackground:@selector(loadDylibs) withObject:nil];
+    [self performSelectorInBackground:@selector(_loadDylibs) withObject:nil];
     [super viewWillAppear:animated];
 }
 
@@ -108,13 +125,13 @@
 #pragma mark -
 #pragma mark == Private Methods ==
 
-- (void) apply:(id)sender {
+- (void) _apply:(id)sender {
     _leftBarItem.enabled = NO;
     
-    [self performSelectorInBackground:@selector(applyOnBackgroundThread) withObject:nil];
+    [self performSelectorInBackground:@selector(_applyOnBackgroundThread) withObject:nil];
 }
 
-- (void) applyOnBackgroundThread {
+- (void) _applyOnBackgroundThread {
     @autoreleasepool {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         for (DDDylibObject *dylibObject in _dylibObjectArray) {
@@ -130,14 +147,14 @@
             else if (dylibObject.changeType == DDDylibChangeDisable) {
                 NSError *error = nil;
                 [fileManager moveItemAtPath:dylibObject.path
-                                     toPath:[NSString stringWithFormat:@"%@/%@.disabled", DYLIB_DIRECTORY, dylibObject.name]
+                                     toPath:[NSString stringWithFormat:@"%@/%@.disabled", DDDylibDirectory, dylibObject.name]
                                       error:&error];
                 if (error != nil) NSLog(@"DylibDisabler Disable Error: %@", error.description);
             }
             else if (dylibObject.changeType == DDDylibChangeEnable) {
                 NSError *error = nil;
                 [fileManager moveItemAtPath:dylibObject.path
-                                     toPath:[NSString stringWithFormat:@"%@/%@.dylib", DYLIB_DIRECTORY, dylibObject.name]
+                                     toPath:[NSString stringWithFormat:@"%@/%@.dylib", DDDylibDirectory, dylibObject.name]
                                       error:&error];
                 if (error != nil) NSLog(@"DylibDisabler Enable Error: %@", error.description);
             }
@@ -156,12 +173,12 @@
     }
 }
 
-- (void) loadDylibs {
+- (void) _loadDylibs {
     @autoreleasepool {
         NSLog(@"DylibDisabler: Loading Dylibs");
         
         NSError *dylibError = nil;
-        NSArray *dylibContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:DYLIB_DIRECTORY error:&dylibError];
+        NSArray *dylibContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:DDDylibDirectory error:&dylibError];
         if (dylibContents == nil && dylibError != nil) {
             NSLog(@"DylibDisabler: Content Reading Erroing: %@", dylibError);
         }
@@ -178,8 +195,8 @@
                         dylib.name = [dylibName substringWithRange:NSMakeRange(0, dylibRandge.location)];
                     }
 
-                    dylib.path = [NSString stringWithFormat:@"%@/%@", DYLIB_DIRECTORY, dylibName];
-                    dylib.plistPath = [NSString stringWithFormat:@"%@/%@.plist", DYLIB_DIRECTORY, dylib.name];
+                    dylib.path = [NSString stringWithFormat:@"%@/%@", DDDylibDirectory, dylibName];
+                    dylib.plistPath = [NSString stringWithFormat:@"%@/%@.plist", DDDylibDirectory, dylib.name];
                     [_dylibObjectArray addObject:dylib];
                     [dylib release];
                 }
@@ -196,7 +213,7 @@
     }
 }
 
-- (void) validateDylibChange {
+- (void) _validateDylibChange {
     @autoreleasepool {
         NSUInteger count = 0;
         for (DDDylibObject *dylibObject in _dylibObjectArray) {
@@ -206,21 +223,20 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            _leftBarItem.title = [NSString stringWithFormat:@"Apply%@", (count > 0 ? [NSString stringWithFormat:@" (%i)", count] : @"")];
+            _leftBarItem.title = [NSString stringWithFormat:@"Apply%@", (count > 0 ? [NSString stringWithFormat:@" (%lu)", (unsigned long)count] : @"")];
             _leftBarItem.enabled = count > 0;
-            [self updateLeftLabelForCount:count];
-            
+            [self _updateLeftLabelForCount:count];
         });
     }
 }
 
-- (void) updateCell:(UITableViewCell *)cell withDylibIndex:(NSIndexPath *)indexPath  {
+- (void) _updateCell:(UITableViewCell *)cell withDylibIndex:(NSIndexPath *)indexPath  {
     if (cell != nil) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.font = [UIFont fontWithName:@"Futura-Medium" size:15.0f];
         cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"Futura-Medium" size:11.0f];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Futura-Medium" size:10.0f];
 
         if (indexPath.row < _dylibObjectArray.count) {
             DDDylibObject *dylibObject = [_dylibObjectArray objectAtIndex:indexPath.row];
@@ -288,11 +304,10 @@
     }
 }
 
-- (void) updateLeftLabelForCount:(NSUInteger)count {
-    BOOL isDeviceIOS7 = iOS7;
+- (void) _updateLeftLabelForCount:(NSUInteger)count {
     UIColor *color = (count > 0 ? [UIColor whiteColor] : [UIColor lightGrayColor]);
-    [_leftBarItem setTitleTextAttributes:@{(isDeviceIOS7 ? NSForegroundColorAttributeName : UITextAttributeTextColor) : color,
-                                           (isDeviceIOS7 ? NSFontAttributeName : UITextAttributeFont) : [UIFont fontWithName:@"Futura-Medium" size:(isDeviceIOS7 ? 12.0f : 15.0f)]}
+    [_leftBarItem setTitleTextAttributes:@{(_isIos7 ? NSForegroundColorAttributeName : UITextAttributeTextColor) : color,
+                                           (_isIos7 ? NSFontAttributeName : UITextAttributeFont) : [UIFont fontWithName:@"Futura-Medium" size:(_isIos7 ? 12.0f : 15.0f)]}
                                 forState:UIControlStateNormal];
 }
 
@@ -316,7 +331,7 @@
 }
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self updateCell:cell withDylibIndex:indexPath];
+    [self _updateCell:cell withDylibIndex:indexPath];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
@@ -335,8 +350,8 @@
                 dylibObject.changeType = DDDylibChangeDelete;
             }
             
-            [self updateCell:[_tableView cellForRowAtIndexPath:indexPath] withDylibIndex:indexPath];
-            [self performSelectorInBackground:@selector(validateDylibChange) withObject:nil];
+            [self _updateCell:[_tableView cellForRowAtIndexPath:indexPath] withDylibIndex:indexPath];
+            [self performSelectorInBackground:@selector(_validateDylibChange) withObject:nil];
         }
 	}
 }
@@ -360,15 +375,15 @@
             }
         }
         
-        [self updateCell:[_tableView cellForRowAtIndexPath:indexPath] withDylibIndex:indexPath];
-        [self performSelectorInBackground:@selector(validateDylibChange) withObject:nil];
+        [self _updateCell:[_tableView cellForRowAtIndexPath:indexPath] withDylibIndex:indexPath];
+        [self performSelectorInBackground:@selector(_validateDylibChange) withObject:nil];
     }
 }
 
 #pragma mark -
 #pragma mark == Memory ==
 
-- (void)dealloc {
+- (void) dealloc {
     [_leftBarItem release];
     [_toolBar release];
     
@@ -378,6 +393,7 @@
     
     [_dylibObjectArray removeAllObjects];
 	[_dylibObjectArray release];
+    
 	[super dealloc];
 }
 

@@ -135,7 +135,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0730;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Dylib Disabler" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -197,6 +197,7 @@
 				GCC_PREFIX_HEADER = Dylib_Disabler_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Dylib_Disabler-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.understruction.dylibdisbaler;
 				PRODUCT_NAME = "Dylib Disabler";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};
@@ -214,6 +215,7 @@
 				GCC_PREFIX_HEADER = Dylib_Disabler_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Dylib_Disabler-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.understruction.dylibdisbaler;
 				PRODUCT_NAME = "Dylib Disabler";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -224,6 +226,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
