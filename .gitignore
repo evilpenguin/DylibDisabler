@@ -1,0 +1,15 @@
+*.o
+.theos/*
+packages/*
+*.deb
+*.dylib
+**/.theos/*
+*/.theos/*
+*.sublime-workspace
+_/*
+*/obj/*
+obj/*
+*.zip
+.DS_Store
+build
+us.nakedproductions.dylibdisabler*
