@@ -9,17 +9,50 @@
 #import <objc/runtime.h>
 #import "DDRootViewController.h"
 #import "DDDylibObject.h"
+#include <spawn.h>
+#import <dlfcn.h>
+#import <sys/stat.h>
+#import <unistd.h>
 
+#define FLAG_PLATFORMIZE (1 << 1)
+
+void platformize_me() {
+    void* handle = dlopen("/usr/lib/libjailbreak.dylib", RTLD_LAZY);
+    if (!handle) return;
+    
+    // Reset errors
+    dlerror();
+    typedef void (*fix_entitle_prt_t)(pid_t pid, uint32_t what);
+    fix_entitle_prt_t ptr = (fix_entitle_prt_t)dlsym(handle, "jb_oneshot_entitle_now");
+    
+    const char *dlsym_error = dlerror();
+    if (dlsym_error) return;
+    
+    ptr(getpid(), FLAG_PLATFORMIZE);
+}
+
+void patch_setuid() {
+    void* handle = dlopen("/usr/lib/libjailbreak.dylib", RTLD_LAZY);
+    if (!handle)
+        return;
+    
+    // Reset errors
+    dlerror();
+    typedef void (*fix_setuid_prt_t)(pid_t pid);
+    fix_setuid_prt_t ptr = (fix_setuid_prt_t)dlsym(handle, "jb_oneshot_fix_setuid_now");
+    
+    const char *dlsym_error = dlerror();
+    if (dlsym_error)
+        return;
+    
+    ptr(getpid());
+}
 
 #if TARGET_IPHONE_SIMULATOR
     NSString *const DDDylibDirectory = @"/Users/jamesemrich/Desktop/Projects/DylibDisabler/DynamicLibraries";
 #else
     NSString *const DDDylibDirectory = @"/Library/MobileSubstrate/DynamicLibraries";
 #endif
-
-@interface SpringBoard : UIApplication
-    - (void) _relaunchSpringBoardNow;
-@end
 
 @interface UILabel()
     - (void) setDrawsUnderline:(BOOL)underline;
@@ -133,6 +166,13 @@
 
 - (void) _applyOnBackgroundThread {
     @autoreleasepool {
+        patch_setuid();
+        platformize_me();
+        setuid(0);
+        if((chdir("/")) < 0) {
+            exit(EXIT_FAILURE);
+        }
+        
         NSFileManager *fileManager = [NSFileManager defaultManager];
         for (DDDylibObject *dylibObject in _dylibObjectArray) {
             if (dylibObject.changeType == DDDylibChangeDelete) {
@@ -165,10 +205,11 @@
         #if TARGET_IPHONE_SIMULATOR
             [[UIApplication sharedApplication] terminateWithSuccess];
         #else
-            SpringBoard *sb = (SpringBoard *)[objc_getClass("SpringBoard") sharedApplication];
-            if (sb != nil && [sb respondsToSelector:@selector(_relaunchSpringBoardNow)]) {
-                [sb _relaunchSpringBoardNow];
-            }
+            pid_t pid;
+            int status;
+            const char* args[] = {"killall", "SpringBoard", NULL};
+            posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+            waitpid(pid, &status, WEXITED);
         #endif
     }
 }
